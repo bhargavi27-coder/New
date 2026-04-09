@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern Book Recommender</title>
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --primary-hover: #4338ca;
+            --success: #10b981;
+            --error: #ef4444;
+            --bg-body: #f8fafc;
+            --text-main: #1e293b;
+            --border-soft: #e2e8f0;
+            --white: #ffffff;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .card {
+            background: var(--white);
+            width: 100%;
+            max-width: 1000px;
+            border-radius: 16px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            border: 1px solid var(--border-soft);
+        }
+
+        header {
+            background: var(--primary);
+            padding: 30px;
+            text-align: center;
+        }
+
+        header h1 {
+            color: white;
+            margin: 0;
+            font-size: 1.8rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        form {
+            padding: 40px;
+        }
+
+        .layout-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 40px;
+        }
+
+        .input-stack {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .field {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        label {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #64748b;
+            text-transform: uppercase;
+        }
+
+        input, select, textarea {
+            padding: 12px 16px;
+            border: 1.5px solid var(--border-soft);
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.2s ease;
+            outline: none;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1);
+        }
+
+        /* ISBN Error Message Style */
+        #isbn-feedback {
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-top: 2px;
+        }
+
+        /* Image Upload Area */
+        .upload-zone {
+            border: 2px dashed #cbd5e1;
+            border-radius: 12px;
+            background: #f1f5f9;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-height: 400px;
+            position: relative;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .upload-zone:hover {
+            background: #e2e8f0;
+            border-color: var(--primary);
+        }
+
+        .upload-zone.dragover {
+            background: rgba(79, 70, 229, 0.05);
+            border-color: var(--primary);
+            transform: scale(1.02);
+        }
+
+        #preview-img {
+            max-width: 100%;
+            max-height: 350px;
+            border-radius: 8px;
+            display: none;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        .upload-icon {
+            font-size: 50px;
+            margin-bottom: 15px;
+        }
+
+        /* Footer / Button */
+        .footer-action {
+            margin-top: 40px;
+            text-align: center;
+        }
+
+        .btn-submit {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 16px 60px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 10px 15px -3px rgba(79, 70, 229, 0.4);
+        }
+
+        .btn-submit:hover {
+            background: var(--primary-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 20px 25px -5px rgba(79, 70, 229, 0.4);
+        }
+
+        .btn-submit:active {
+            transform: translateY(0);
+        }
+
+        @media (max-width: 850px) {
+            .layout-grid { grid-template-columns: 1fr; }
+            .upload-zone { min-height: 250px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <header>
+        <h1>Recommend a Book</h1>
+    </header>
+
+    <form id="bookForm">
+        <div class="layout-grid">
+            <div class="input-stack">
+                <div class="field">
+                    <label>Book Title</label>
+                    <input type="text" id="bookTitle" placeholder="e.g. Atomic Habits" required>
+                </div>
+
+                <div class="field">
+                    <label>Author Name</label>
+                    <input type="text" id="authorName" placeholder="e.g. James Clear" required>
+                </div>
+
+                <div class="field">
+                    <label>Library Status</label>
+                    <select required>
+                        <option value="" disabled selected>Is it already in the library?</option>
+                        <option value="yes">Yes, but need more copies</option>
+                        <option value="no">No, brand new request</option>
+                    </select>
+                </div>
+
+                <div class="field">
+                    <label>ISBN-13 (Digits Only)</label>
+                    <input type="text" id="isbnInput" placeholder="978XXXXXXXXXX" maxlength="13">
+                    <div id="isbn-feedback"></div>
+                </div>
+
+                <div class="field">
+                    <label>Quantity Required</label>
+                    <input type="number" id="quantity" min="1" value="1">
+                </div>
+
+                <div class="field">
+                    <label>Reason for Recommendation</label>
+                    <textarea id="reason" rows="4" placeholder="Briefly explain why this book is a good addition..."></textarea>
+                </div>
+            </div>
+
+            <div class="upload-zone" id="dropZone" onclick="document.getElementById('fileInput').click()">
+                <div id="promptText">
+                    <div class="upload-icon">📚</div>
+                    <strong>UPLOAD BOOK COVER</strong>
+                    <p style="color: #64748b; font-size: 0.9rem; margin-top: 10px;">
+                        Click to browse or drag and drop image
+                    </p>
+                </div>
+                <input type="file" id="fileInput" hidden accept="image/*">
+                <img id="preview-img" alt="Book Cover Preview">
+            </div>
+        </div>
+
+        <div class="footer-action">
+            <button type="submit" class="btn-submit">Submit Recommendation</button>
+        </div>
+    </form>
+</div>
+
+<script>
+    // --- Elements ---
+    const fileInput = document.getElementById('fileInput');
+    const previewImg = document.getElementById('preview-img');
+    const promptText = document.getElementById('promptText');
+    const dropZone = document.getElementById('dropZone');
+    const isbnInput = document.getElementById('isbnInput');
+    const isbnFeedback = document.getElementById('isbn-feedback');
+    const bookForm = document.getElementById('bookForm');
+
+    // --- ISBN-13 Validation Logic ---
+    isbnInput.addEventListener('input', function() {
+        // Force numbers only
+        this.value = this.value.replace(/\D/g, '');
+        
+        const len = this.value.length;
+        
+        if (len === 0) {
+            isbnFeedback.textContent = '';
+            this.style.borderColor = '';
+        } else if (len < 13) {
+            isbnFeedback.textContent = `⚠️ Need ${13 - len} more digits`;
+            isbnFeedback.style.color = 'var(--error)';
+            this.style.borderColor = 'var(--error)';
+        } else {
+            isbnFeedback.textContent = '✅ Valid 13-digit format';
+            isbnFeedback.style.color = 'var(--success)';
+            this.style.borderColor = 'var(--success)';
+        }
+    });
+
+    // --- Image Preview Logic ---
+    fileInput.addEventListener('change', function() {
+        const file = this.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                previewImg.src = e.target.result;
+                previewImg.style.display = 'block';
+                promptText.style.display = 'none';
+                dropZone.style.borderStyle = 'solid'; // Change border to solid on success
+            }
+            reader.readAsDataURL(file);
+        }
+    });
+
+    // --- Drag and Drop Visual Feedback ---
+    ['dragenter', 'dragover'].forEach(eventName => {
+        dropZone.addEventListener(eventName, (e) => {
+            e.preventDefault();
+            dropZone.classList.add('dragover');
+        });
+    });
+
+    ['dragleave', 'drop'].forEach(eventName => {
+        dropZone.addEventListener(eventName, (e) => {
+            e.preventDefault();
+            dropZone.classList.remove('dragover');
+        });
+    });
+
+    dropZone.addEventListener('drop', (e) => {
+        const dt = e.dataTransfer;
+        const files = dt.files;
+        fileInput.files = files;
+        fileInput.dispatchEvent(new Event('change'));
+    });
+
+    // --- Form Submission Handling ---
+    bookForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        // Check ISBN one last time before allowing submit
+        if (isbnInput.value.length > 0 && isbnInput.value.length !== 13) {
+            alert('Wait! The ISBN must be exactly 13 digits.');
+            isbnInput.focus();
+            return;
+        }
+
+        // Simulating success
+        alert('✨ Success! Your recommendation has been logged.');
+        bookForm.reset();
+        previewImg.style.display = 'none';
+        promptText.style.display = 'block';
+        isbnFeedback.textContent = '';
+        isbnInput.style.borderColor = '';
+    });
+</script>
+
+</body>
+</html>

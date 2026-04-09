@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Usersefined</h1>
+    <script>
+         let student={
+            name:"kumar",
+            roll:24,
+            branch:" ",
+            get data(){
+                console.log(this.roll)
+
+            },
+            set info(e){
+                this.branch=e
+            },
+           /* studying:function(){
+                console.log("i am ",this.name)
+            }*/
+           //or
+
+           studying(){
+                console.log("i am ",this.name)
+            }
+         }
+         student.data
+         student.info="AI"
+         //console.log(student.name)
+         //console.log(student.studying()) should not write because in method console is there .it should not be 2 times
+         //student.studying()
+         console.log(student)
+    </script>
+</body>
+</html>

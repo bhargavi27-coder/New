@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Faculty Directory</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            background-color: #f0f0f0;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .faculty-list {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .faculty-link {
+            display: block;
+            font-size: 24px;
+            font-weight: bold;
+            color: #0066cc;
+            text-decoration: none;
+            margin: 20px 0;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            border-left: 5px solid #0066cc;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .faculty-link:hover {
+            background: #e6f3ff;
+            transform: translateX(5px);
+            transition: all 0.3s;
+        }
+        .faculty-dept {
+            font-size: 16px;
+            color: #666;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Faculty Directory</h1>
+    <p style="text-align: center; color: #666;">Click on faculty name to open their timetable in new tab</p>
+    
+    <div class="faculty-list">
+        <a href="faculty1.html" target="_blank" class="faculty-link">
+            Dr. Rajesh Kumar
+            <div class="faculty-dept">Professor & HOD - Computer Science</div>
+        </a>
+
+        <a href="faculty2.html" target="_blank" class="faculty-link">
+            Dr. Priya Sharma
+            <div class="faculty-dept">Associate Professor - Electronics</div>
+        </a>
+
+        <a href="faculty3.html" target="_blank" class="faculty-link">
+            Arun Kumar
+            <div class="faculty-dept">Assistant Professor - Mechanical</div>
+        </a>
+
+        <a href="faculty4.html" target="_blank" class="faculty-link">
+            Dr. Sita Mishra
+            <div class="faculty-dept">Professor - Civil Engineering</div>
+        </a>
+
+        <a href="faculty5.html" target="_blank" class="faculty-link">
+            Vikram Khanna
+            <div class="faculty-dept">Assistant Professor - Information Technology</div>
+        </a>
+    </div>
+</body>
+</html>

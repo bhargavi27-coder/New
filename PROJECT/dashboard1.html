@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<meta charset="UTF-8">
+
+<style>
+
+body{
+margin:0;
+font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+
+background-image:url("Screenshot 2026-03-11 064651.png"); /* your image name */
+background-size:cover;
+background-position:center;
+background-repeat:no-repeat;
+height:100vh;
+}
+#menu-toggle{
+display:none;
+}
+
+/* Hamburger Button */
+.menu-btn{
+font-size:30px;
+padding:5px;
+cursor:pointer;
+position:fixed;
+top:10px;
+left:10px;
+background:blue;
+color:white;
+z-index:2;
+}
+
+/* Sidebar */
+.sidebar{
+position:fixed;
+top:0;
+left:-250px;
+width:250px;
+height:100%;
+background:rgb(49,150,223);
+color:white;
+transition:0.4s;
+padding-top:60px;
+}
+
+.sidebar ul{
+list-style:none;
+padding:0;
+}
+
+.sidebar li{
+background:rgba(255,255,255,0.2);
+cursor:pointer;
+}
+
+.sidebar a{
+color:white;
+text-decoration:none;
+}
+
+/* Content */
+.content{
+padding-top:80px;
+padding-left:60px;
+}
+
+/* When checked show sidebar */
+#menu-toggle:checked ~ .sidebar{
+left:0;
+}
+
+/* Move content */
+#menu-toggle:checked ~ .content{
+margin-left:250px;
+}
+
+/* Title */
+.title{
+text-align:center;
+font-size:22px;
+margin-bottom:40px;
+}
+
+
+.cards{
+display:flex;
+gap:50px;
+}
+
+
+.card{
+width:340px;
+height:340px;
+border:2px solid black;
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:space-evenly;
+background:#d7d9ef;
+color:blue;
+margin-top: 30px;
+}
+
+
+.circle{
+width:100px;
+height:100px;
+/*border-radius:50%;*/
+border:2px solid black;
+display:flex;
+justify-content:center;
+align-items:center;
+overflow:hidden;
+background:white;
+/*margin-bottom:10px;*/
+}
+
+/* Image inside circle */
+.circle img{
+width:100px;
+height:100px;
+object-fit:cover;
+}
+.admin{
+    border: 1px solid black;
+    text-align: center;
+    background-color: aliceblue;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<input type="checkbox" id="menu-toggle">
+
+<label for="menu-toggle" class="menu-btn">&#9776;</label>
+
+<div class="sidebar">
+<ul>
+<li><a href="#">Home</a></li>
+<li><a href="#">About</a></li>
+<li><a href="#">Logout</a></li>
+</ul>
+</div>
+
+<div class="content">
+    <div class="admin">Admin Page</div>
+
+<div class="title">Request For</div>
+
+<div class="cards">
+
+<div class="card">
+<div class="circle">
+<img src="Screenshot 2026-03-11 061108.png">
+</div>
+<p>Student</p>
+</div>
+
+<div class="card">
+<div class="circle">
+<img src="Screenshot 2026-03-11 061201.png">
+</div>
+<p>Faculty</p>
+</div>
+
+<div class="card">
+<div class="circle">
+<img src="Screenshot 2026-03-11 062258.png">
+</div>
+<p>Librarian</p>
+</div>
+
+</div>
+
+</div>
+
+</body>
+</html>

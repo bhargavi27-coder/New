@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Registration Page</title>
+    <style>
+        body{
+            height:100vh;
+            margin:0;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            font-family:Arial;
+            background-color:#f2f2f2;
+        }
+        button{
+            padding:15px 30px;
+            font-size:18px;
+            background-color:green;
+            color:white;
+            border:none;
+            border-radius:5px;
+            cursor:pointer;
+        }
+    </style>
+</head>
+<body>
+
+<button onclick="register()">Register</button>
+
+<script>
+function register()
+{
+    var name;
+    var validName = false;
+
+    // loop until valid name
+    while(!validName)
+    {
+        name = prompt("Enter your name:");
+
+        if(name == null || name == "")
+        {
+            alert("Name is required");
+            continue;
+        }
+
+        validName = true;
+
+        for(var i=0; i<name.length; i++)
+        {
+            if(name[i] >= '0' && name[i] <= '9')
+            {
+                alert("Invalid name. Do not enter numbers.");
+                validName = false;
+                break;
+            }
+        }
+    }
+
+    var age;
+    var validAge = false;
+
+    // loop until valid age (numbers only)
+    while(!validAge)
+    {
+        age = prompt("Enter your age:");
+
+        if(age == null || age == "")
+        {
+            alert("Age is required");
+            continue;
+        }
+
+        validAge = true;
+
+        for(var i=0; i<age.length; i++)
+        {
+            if(age[i] < '0' || age[i] > '9')
+            {
+                alert("Invalid age. Enter numbers only.");
+                validAge = false;
+                break;
+            }
+        }
+    }
+
+    alert("Registration successful!\nName: " + name + "\nAge: " + age);
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>ARRAY AND CONSTRUCTOR</h1>
+    <script>
+        function Student(name,roll){
+            this.name=name
+            this.roll=roll
+        }
+        let s1=new Student("mahitha",44)
+        let s2=new Student("saniya",51)
+        console.log(s1)
+
+        let arr=[1,2,3,4]
+        let arr2=new Array("mahitha","anu","geetha")
+        console.log(arr.push(6))
+        console.log(arr)
+        console.log(arr.unshift(6))
+        console.log(arr)
+        console.log(arr.pop())
+        console.log(arr)
+        console.log(arr.shift())
+        console.log(arr)
+        console.log(arr.length)
+        console.log(arr.includes(2))
+        console.log(arr.indexOf(1))
+        console.log(arr.slice(1,3))
+        //console.log(arr.splice(0,2))
+        //console.log(arr)
+        console.log(arr.splice(0,2,10,20))
+        //console.log(arr)
+        let a=[90,12,34]
+        console.log(a.sort())
+        let d=[0.2,1,2.5,900,100]
+        console.log(d.sort())
+        
+    </script>
+</body>
+</html>

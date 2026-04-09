@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern Book Recommender</title>
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --primary-hover: #4338ca;
+            --bg-body: #f8fafc;
+            --text-main: #1e293b;
+            --border-soft: #e2e8f0;
+            --white: #ffffff;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .card {
+            background: var(--white);
+            width: 100%;
+            max-width: 1000px;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            border: 1px solid var(--border-soft);
+        }
+
+        header {
+            background: var(--primary);
+            padding: 30px;
+            text-align: center;
+        }
+
+        header h1 {
+            color: white;
+            margin: 0;
+            font-size: 1.8rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        form {
+            padding: 40px;
+        }
+
+        .layout-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 40px;
+        }
+
+        .input-stack {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .field {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #64748b;
+            text-transform: uppercase;
+        }
+
+        input, select, textarea {
+            padding: 12px 16px;
+            border: 1.5px solid var(--border-soft);
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.2s ease;
+            outline: none;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1);
+        }
+
+        /* Enhanced Upload Area */
+        .upload-zone {
+            border: 2px dashed #cbd5e1;
+            border-radius: 12px;
+            background: #f1f5f9;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-height: 400px;
+            position: relative;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .upload-zone:hover {
+            background: #e2e8f0;
+            border-color: var(--primary);
+        }
+
+        .upload-zone.dragover {
+            background: rgba(79, 70, 229, 0.05);
+            border-color: var(--primary);
+        }
+
+        #preview-img {
+            max-width: 100%;
+            max-height: 350px;
+            border-radius: 8px;
+            display: none;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .upload-icon {
+            font-size: 40px;
+            margin-bottom: 10px;
+        }
+
+        /* Button Styling */
+        .footer-action {
+            margin-top: 40px;
+            text-align: center;
+        }
+
+        .btn-submit {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 16px 60px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: transform 0.2s, background 0.3s;
+            box-shadow: 0 4px 14px 0 rgba(79, 70, 229, 0.39);
+        }
+
+        .btn-submit:hover {
+            background: var(--primary-hover);
+            transform: translateY(-2px);
+        }
+
+        /* Mobile View */
+        @media (max-width: 850px) {
+            .layout-grid { grid-template-columns: 1fr; }
+            .upload-zone { min-height: 250px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <header>
+        <h1>Recommend a Book</h1>
+    </header>
+
+    <form id="bookForm">
+        <div class="layout-grid">
+            <div class="input-stack">
+                <div class="field">
+                    <label>Book Title</label>
+                    <input type="text" placeholder="The Great Gatsby" required>
+                </div>
+
+                <div class="field">
+                    <label>Author Name</label>
+                    <input type="text" placeholder="F. Scott Fitzgerald" required>
+                </div>
+
+                <div class="field">
+                    <label>Library Status</label>
+                    <select required>
+                        <option value="" disabled selected>Is it already in the library?</option>
+                        <option value="yes">Yes, but need more copies</option>
+                        <option value="no">No, brand new request</option>
+                    </select>
+                </div>
+
+                <div class="field">
+                    <label>ISBN (13-digit)</label>
+                    <input type="text" placeholder="978-XXXXXXXXXX">
+                </div>
+
+                <div class="field">
+                    <label>Quantity Required</label>
+                    <input type="number" min="1" value="1">
+                </div>
+
+                <div class="field">
+                    <label>Why are you recommending this?</label>
+                    <textarea rows="4" placeholder="Enter your review or reasoning here..."></textarea>
+                </div>
+            </div>
+
+            <div class="upload-zone" id="dropZone" onclick="document.getElementById('fileInput').click()">
+                <div id="promptText">
+                    <div class="upload-icon">📸</div>
+                    <strong>UPLOAD BOOK COVER</strong>
+                    <p style="color: #64748b; font-size: 0.9rem;">Click or drag photo here</p>
+                </div>
+                <input type="file" id="fileInput" hidden accept="image/*">
+                <img id="preview-img" alt="Preview">
+            </div>
+        </div>
+
+        <div class="footer-action">
+            <button type="submit" class="btn-submit">Submit Recommendation</button>
+        </div>
+    </form>
+</div>
+
+<script>
+    const fileInput = document.getElementById('fileInput');
+    const previewImg = document.getElementById('preview-img');
+    const promptText = document.getElementById('promptText');
+    const dropZone = document.getElementById('dropZone');
+
+    // Handle File Selection
+    fileInput.addEventListener('change', function() {
+        const file = this.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                previewImg.src = e.target.result;
+                previewImg.style.display = 'block';
+                promptText.style.display = 'none';
+            }
+            reader.readAsDataURL(file);
+        }
+    });
+
+    // Drag and Drop Visuals
+    dropZone.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        dropZone.classList.add('dragover');
+    });
+
+    dropZone.addEventListener('dragleave', () => {
+        dropZone.classList.remove('dragover');
+    });
+
+    dropZone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        dropZone.classList.remove('dragover');
+        fileInput.files = e.dataTransfer.files;
+        fileInput.dispatchEvent(new Event('change'));
+    });
+
+    // Success Message
+    document.getElementById('bookForm').onsubmit = (e) => {
+        e.preventDefault();
+        alert('✨ Recommendation sent to the librarian!');
+    };
+</script>
+
+</body>
+</html>

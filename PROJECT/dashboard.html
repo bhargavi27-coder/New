@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+<meta charset="UTF-8">
+
+<!-- <link rel="stylesheet" href="style.css"> -->
+ <style>
+    body {
+  margin: 0;
+  font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+
+/* Hide checkbox */
+#menu-toggle {
+  display: none;
+}
+
+/* Button */
+.menu-btn {
+  font-size: 30px;
+  padding: 5px;
+  cursor: pointer;
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  background:blue;
+  color: white;
+  z-index: 2;
+  box-sizing: border-box;
+}
+
+/* Sidebar */
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: -250px;
+  width: 250px;
+  height: 100%;
+  background:rgb(49, 150, 223);
+  color: white;
+  transition: 0.4s;
+  /*padding-top: 600px;*/
+}
+
+/* Content */
+.content {
+    display: flex;
+  padding: 80px 20px;
+  transition: 0.4s;
+
+}
+
+/* When checked → show sidebar */
+#menu-toggle:checked ~ .sidebar {
+  left: 0;
+}
+
+/* When checked → move content */
+#menu-toggle:checked ~ .content {
+  margin-left: 250px;
+}
+.circle{
+width:50px;
+height:50px;
+border-radius:50%;
+border:2px solid black;
+display:flex;
+justify-content:center;
+align-items:center;
+overflow:hidden;
+background:white;
+}
+
+.circle img{
+width:35px;
+height:35px;
+}
+ </style>
+</head>
+<body>
+
+<input type="checkbox" id="menu-toggle">
+
+<label for="menu-toggle" class="menu-btn">&#9776;</label>
+
+<div class="sidebar">
+  
+  <ul>
+    <li><a href="#">Home</a></li>
+    <li><a href="#">About</a></li>
+    <li><a href="#">Logout</a></li>
+  </ul>
+</div>
+<div class="card">
+<div class="circle">
+<img src="student.png" alt="imag">
+</div>
+<p>Student</p>
+</div>
+
+<div class="card">
+<div class="circle">
+<img src="faculty.png" alt="img">
+</div>
+<p>Faculty</p>
+</div>
+
+<div class="card">
+<div class="circle">
+<img src="librarian.png" alt="img">
+</div>
+<p>Librarian</p>
+</div>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Object</h1>
+    <script>
+        let student={
+            name:"mahitha",
+            roll:49,
+            branch:"AI",
+            isStudent:true,
+            marks:[96,90,78],
+            skills:{
+                html:"best",
+                css:98,
+                js:78
+            },
+            key:"hi"
+        }
+        for(key in student){
+            console.log(key,":",student[key])
+        }
+        console.log(student.roll)
+        console.log(student["name"])
+        console.log(Object.keys(student))
+        console.log(Object.values(student))
+        console.log(Object.entries(student))
+        student.name="mahi"
+        student.age=90
+        console.log(student.name)
+        delete student.name
+        console.log(student.skills.css)
+        
+    </script>
+</body>
+</html>

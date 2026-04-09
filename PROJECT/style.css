@@ -1,0 +1,54 @@
+body{
+    background-color: beige;
+}
+ tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+        
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        ul li {
+            background: #3498db;
+            color: white;
+            margin: 10px 0;
+            padding: 15px;
+            border-radius: 5px;
+        }
+        /* Faculty Detail Page Styles */
+        .detail-container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .detail-header {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 30px;
+        }
+         .back-link {
+            display: inline-block;
+            color: #3498db;
+            text-decoration: none;
+            font-weight: bold;
+            margin-bottom: 20px;
+            padding: 10px;
+            background: #ecf0f1;
+            border-radius: 5px;
+        }
+        
+        .back-link:hover {
+            background: #3498db;
+            color: white;
+        }
+         .subtitle {
+            text-align: center;
+            color: #7f8c8d;
+            margin-bottom: 40px;
+        }

@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Strict Book Recommendation Form</title>
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --error: #ef4444;
+            --success: #10b981;
+            --bg: #f8fafc;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .card {
+            background: white;
+            width: 100%;
+            max-width: 900px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            overflow: hidden;
+            border: 1px solid #e2e8f0;
+        }
+
+        header {
+            background: var(--primary);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        form { padding: 30px; }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        .field { margin-bottom: 15px; display: flex; flex-direction: column; gap: 5px; }
+
+        label { font-size: 12px; font-weight: 700; color: #64748b; }
+
+        /* Modern Inputs */
+        input, select, textarea {
+            padding: 12px;
+            border: 2px solid #e2e8f0;
+            border-radius: 6px;
+            font-size: 14px;
+            outline: none;
+            transition: 0.2s;
+        }
+
+        /* When the user clicks or when there's an error */
+        input:focus { border-color: var(--primary); }
+        input:invalid:not(:placeholder-shown) { border-color: var(--error); }
+
+        /* Upload Area */
+        .upload-zone {
+            border: 2px dashed #cbd5e1;
+            background: #f1f5f9;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 350px;
+            cursor: pointer;
+            text-align: center;
+            position: relative;
+        }
+
+        #preview-img {
+            max-width: 90%;
+            max-height: 300px;
+            display: none;
+            border-radius: 5px;
+        }
+
+        .btn-submit {
+            width: 100%;
+            margin-top: 20px;
+            padding: 15px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .btn-submit:hover { background: #4338ca; }
+
+        @media (max-width: 700px) { .grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <header><h1>Recommend Books</h1></header>
+    
+    <form id="recommendForm">
+        <div class="grid">
+            <div class="inputs">
+                <div class="field">
+                    <label>BOOK NAME</label>
+                    <input type="text" id="bookName" placeholder="Enter title" required>
+                </div>
+                
+                <div class="field">
+                    <label>AUTHOR NAME</label>
+                    <input type="text" id="author" placeholder="Enter author" required>
+                </div>
+
+                <div class="field">
+                    <label>AVAILABILITY STATUS</label>
+                    <select id="status" required>
+                        <option value="">-- Select Status --</option>
+                        <option value="in">Already in Library</option>
+                        <option value="not">Not in Library</option>
+                    </select>
+                </div>
+
+                <div class="field">
+                    <label>ISBN (13 DIGITS)</label>
+                    <input type="text" id="isbn" maxlength="13" placeholder="978..." required>
+                </div>
+
+                <div class="field">
+                    <label>NO. OF COPIES</label>
+                    <input type="number" id="copies" min="1" placeholder="Minimum 1" required>
+                </div>
+
+                <div class="field">
+                    <label>REASON</label>
+                    <textarea id="reason" placeholder="Why should we buy this?" required></textarea>
+                </div>
+            </div>
+
+            <div class="upload-zone" id="dropZone" onclick="document.getElementById('fileInput').click()">
+                <div id="uploadPrompt">
+                    <span style="font-size: 40px;">📷</span><br>
+                    <strong>UPLOAD BOOK PHOTO</strong><br>
+                    <small>(Required)</small>
+                </div>
+                <input type="file" id="fileInput" accept="image/*" required style="display: none;">
+                <img id="preview-img" alt="Preview">
+            </div>
+        </div>
+
+        <button type="submit" class="btn-submit">SUBMIT RECOMMENDATION</button>
+    </form>
+</div>
+
+<script>
+    const form = document.getElementById('recommendForm');
+    const fileInput = document.getElementById('fileInput');
+    const preview = document.getElementById('preview-img');
+    const prompt = document.getElementById('uploadPrompt');
+    const isbnInput = document.getElementById('isbn');
+
+    // 1. Show image preview when selected
+    fileInput.onchange = () => {
+        const [file] = fileInput.files;
+        if (file) {
+            preview.src = URL.createObjectURL(file);
+            preview.style.display = 'block';
+            prompt.style.display = 'none';
+        }
+    };
+
+    // 2. ISBN Numbers-only check
+    isbnInput.oninput = function() {
+        this.value = this.value.replace(/\D/g, '');
+    };
+
+    // 3. Final Validation on Submit
+    form.onsubmit = (e) => {
+        e.preventDefault();
+
+        // Check if image was uploaded (HTML doesn't always block this well for files)
+        if (fileInput.files.length === 0) {
+            alert("Please upload a photo of the book cover!");
+            return;
+        }
+
+        // Check ISBN length
+        if (isbnInput.value.length !== 13) {
+            alert("ISBN must be exactly 13 digits!");
+            return;
+        }
+
+        alert("✅ Form submitted successfully! All fields are valid.");
+        form.reset();
+        preview.style.display = 'none';
+        prompt.style.display = 'block';
+    };
+</script>
+
+</body>
+</html>
