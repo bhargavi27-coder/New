@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>🚦 Traffic Light Simulation</title>
+    <style>
+        body {
+            text-align: center;
+            background-image: url("dlcobackground.png");
+            background-repeat: no-repeat;
+            background-position: center;
+            background-attachment: fixed;
+            font-family: Arial, sans-serif;
+            background-size: cover;
+            color: #fff;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;   
+            margin:0;
+            padding:0;
+        }
+
+        h2 {
+            margin-bottom: 40px;
+            color:black;
+        }
+
+        .pole {
+            width: 20px;
+            height: 220px;
+            background: #222;
+            margin: auto;
+            border-radius: 5px;
+        }
+
+        .box {
+            width: 120px;
+            background: #111;
+            padding: 20px;
+            border-radius: 20px;
+            margin: auto;
+            box-shadow: 0 0 20px #000 inset;
+        }
+
+        .light {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: #555;
+            margin: 15px auto;
+            transition: background 0.5s, box-shadow 0.5s;
+        }
+
+        .light.red.active {
+            background: red;
+            box-shadow: 0 0 20px red;
+        }
+
+        .light.yellow.active {
+            background: yellow;
+            box-shadow: 0 0 20px yellow;
+        }
+
+        .light.green.active {
+            background:lawngreen;
+            box-shadow: 0 0 20px limegreen;
+        }
+
+        .timer {
+            border-style: solid;
+            background-color:black;
+            border-radius: 50%;
+            margin-left:770px;
+            padding:30px;
+            margin-right: 770px;
+            margin-top: 20px;
+            color:white;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+
+<h2>🚦 Traffic Light Controller</h2>
+
+<div class="box">
+    <div id="red" class="light"></div>
+    <div id="yellow" class="light"></div>
+    <div id="green" class="light"></div>
+</div>
+
+<div class="pole"></div>
+
+<div class="timer" id="timer">Next change in 2s</div>
+
+<script>
+let state = 0;
+let counter = 2; // seconds for each light
+
+function changeLight() {
+    // Turn off all lights
+    document.getElementById("red").className = "light";
+    document.getElementById("yellow").className = "light";
+    document.getElementById("green").className = "light";
+
+    // Turn on active light
+    if (state === 0) document.getElementById("red").classList.add("light", "red", "active");
+     if (state === 1) document.getElementById("yellow").classList.add("light", "yellow", "active");
+    if (state === 2) document.getElementById("green").classList.add("light", "green", "active");
+   
+    counter = 2; // reset timer
+    state = (state + 1) % 3;
+}
+
+setInterval(changeLight, 2000);
+
+// Timer countdown display
+setInterval(() => {
+    counter--;
+    if(counter < 0) counter = 1;
+    document.getElementById("timer").innerText = `Next change in ${counter}s`;
+}, 1000);
+
+// Initialize
+changeLight();
+</script>
+
+</body>
+</html>
